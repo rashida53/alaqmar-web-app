@@ -1,38 +1,102 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.mainContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  z-index: 1;
+  position: relative;
+}
+
+body {
+  font-family: "Lucida Handwriting";
+}
+
+h1 {
+  margin: 20px;
+}
+
+.mainNav {
+  background-color: #3b4a07;
+}
+
+.mainNavHeader {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.profileFormContainer {
+  display: flex;
+  margin-top: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.searchProfileFormContainer {
+  display: flex;
+  margin: 20px;
+}
+
+.profileForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.navigationDesktop {
+  background-color: #3b4a07;
+  width: 100%;
+  color: white;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  height: 47.5px;
+  align-items: center;
+}
+
+.navigationDesktop ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.navHeader {
+  margin: 20px;
+}
+
+.navigationDesktop ul li {
+  list-style-type: none;
+}
+
+.navigationDesktop ul li h3 {
+  padding: 30px 20px 10px 20px;
+  font-size: 20px;
+}
+
+.navigationDesktop ul li h3:hover {
+  background-color: var(--lightgold);
+}
+
+.navigation {
+  display: none;
+}
+
+.navHeader {
+  font-size: 20px;
+}
+
+.navAndHeader {
+  display: flex;
+}
+
+body,
+button,
+input,
+select,
+footer,
+textarea {
+  margin: 0;
+  font-family: 'Merriweather', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
