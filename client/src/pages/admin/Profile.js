@@ -24,7 +24,7 @@ const Profile = () => {
                 <Nav />
             </div> */}
             <div className="mainContainer">
-                <h1>Student Profiles</h1>
+                <h1 className="text-3xl underline">Student Profiles</h1>
                 <div className="searchProfileFormContainer">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <input
