@@ -22,6 +22,7 @@ type User {
     fullName: String!
     email: String
     password: String
+    profile: Profile
 }
 type Product {
     _id: ID
@@ -38,6 +39,11 @@ type CartItem {
     count: Int
 }
 
+type OrderItem {
+    product: Product
+    count: Int
+}
+
 type Cart {
     _id: ID!
     user: User
@@ -45,8 +51,15 @@ type Cart {
     bill: Float
 }
 
+type Order {
+    _id: ID
+    user: User
+    orderItems: [OrderItem]
+}
+
 type Query {
     profile(its: String!): Profile!
+    user(userId: ID!): User!
     product(productId: String): Product
     cart(userId: ID!): Cart
 }
@@ -55,6 +68,7 @@ type Mutation {
     addUser(fullName: String!, its: String, email: String, password: String): User
     addProduct(productId: ID, product_name: String, description: String, image: String, price: Float, quantity: Int, product_type: String): Product
     addToCart(userId: ID!, productId: ID!, count: Int!): Cart
+    placeOrder(userId: ID!): Order
 }
 `
 module.exports = typeDefs;

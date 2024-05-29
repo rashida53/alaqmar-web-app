@@ -1,8 +1,10 @@
 const Profile = require("../models/Profile");
 const Product = require("../models/Product");
 const User = require("../models/User");
+const Order = require("../models/Order");
 const bcrypt = require("bcrypt");
 const Cart = require("../models/Cart");
+var mongoose = require('mongoose');
 
 const resolvers = {
     Query: {
@@ -17,15 +19,18 @@ const resolvers = {
         },
         product: async (parent, { productId }) => {
             return Product.findOne({ _id: productId });
-        }
+        },
+        user: async (parent, { userId }) => {
+            return User.findOne({ _id: userId }).populate("profile");
+        },
     },
     Mutation: {
         createProfile: async (parent, args) => {
             return Profile.create(args)
         },
         addUser: async (parent, args) => {
-            const user = await User.create(args);
-            return user;
+            const profile = await Profile.findOne({ its: args.its });
+            return User.create({ ...args, profile: mongoose.Types.ObjectId(profile._id) });
         },
         addProduct: async (parent, args) => {
             return Product.create(args);
@@ -60,6 +65,36 @@ const resolvers = {
             await cart.save();
             return Cart.findOne({ user: userId }).populate({
                 path: "cartItems",
+                populate: "product"
+            });
+        },
+
+        placeOrder: async (parent, { userId }) => {
+            let cart = await Cart.findOne({ user: userId }).populate({
+                path: "cartItems",
+                populate: "product"
+            });
+
+            if (!cart || cart.cartItems.length === 0) {
+                throw new Error('Cart is empty or does not exist');
+            }
+
+            const order = new Order({
+                user: userId,
+                orderItems: cart.cartItems.map(item => ({
+                    product: item.product._id,
+                    count: item.count
+                }))
+            });
+
+            await order.save();
+
+            cart.cartItems = [];
+            cart.bill = 0;
+            await cart.save();
+
+            return order.populate({
+                path: "orderItems",
                 populate: "product"
             });
         },
