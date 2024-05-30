@@ -5,9 +5,18 @@ const Order = require("../models/Order");
 const bcrypt = require("bcrypt");
 const Cart = require("../models/Cart");
 var mongoose = require('mongoose');
+const { signToken } = require("../utils/auth");
+const { AuthenticationError } = require("apollo-server-express");
+
 
 const resolvers = {
     Query: {
+        me: async (parent, args, context) => {
+            if (context.user) {
+                return User.findOne({ _id: context.user._id }).populate('profile')
+            }
+            throw new AuthenticationError('You must be logged in.');
+        },
         profile: async (parent, { its }) => {
             return Profile.findOne({ its: its });
         },
@@ -25,12 +34,29 @@ const resolvers = {
         },
     },
     Mutation: {
+        login: async (parent, args) => {
+            const user = await User.findOne({ email: args.email });
+            if (!user) {
+                throw new AuthenticationError('User not found by that email.');
+            }
+            const correctPw = await user.isCorrectPassword(args.password);
+            if (!correctPw) {
+                throw new AuthenticationError('Incorrect password.');
+            }
+            const token = signToken(user);
+            return { token, user };
+        },
         createProfile: async (parent, args) => {
             return Profile.create(args)
         },
         addUser: async (parent, args) => {
-            const profile = await Profile.findOne({ its: args.its });
-            return User.create({ ...args, profile: mongoose.Types.ObjectId(profile._id) });
+            const user = await User.findOne({ its: args.its });
+            if (user) {
+                throw new AuthenticationError("User already exists");
+            } else {
+                const profile = await Profile.findOne({ its: args.its });
+                return User.create({ ...args, profile: mongoose.Types.ObjectId(profile._id) });
+            }
         },
         addProduct: async (parent, args) => {
             return Product.create(args);

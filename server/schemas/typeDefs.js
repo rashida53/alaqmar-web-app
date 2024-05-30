@@ -57,13 +57,20 @@ type Order {
     orderItems: [OrderItem]
 }
 
+type Auth {
+    token: ID!
+    me: User
+}
+
 type Query {
+    me: User
     profile(its: String!): Profile!
     user(userId: ID!): User!
     product(productId: String): Product
     cart(userId: ID!): Cart
 }
 type Mutation {
+    login(email: String!, password: String!): Auth
     createProfile(fullName: String!, secondaryId: String, its: String!, kurta: String, sleeve: String, chest: String, shoulders: String, waist: String, neck: String, izaarLength: String, hips: String): Profile
     addUser(fullName: String!, its: String, email: String, password: String): User
     addProduct(productId: ID, product_name: String, description: String, image: String, price: Float, quantity: Int, product_type: String): Product
