@@ -58,7 +58,7 @@ type Order {
 }
 
 type Auth {
-    token: ID!
+    token: ID
     me: User
 }
 
@@ -72,7 +72,7 @@ type Query {
 type Mutation {
     login(email: String!, password: String!): Auth
     createProfile(fullName: String!, secondaryId: String, its: String!, kurta: String, sleeve: String, chest: String, shoulders: String, waist: String, neck: String, izaarLength: String, hips: String): Profile
-    addUser(fullName: String!, its: String, email: String, password: String): User
+    addUser(fullName: String!, its: String, email: String, password: String): Auth
     addProduct(productId: ID, product_name: String, description: String, image: String, price: Float, quantity: Int, product_type: String): Product
     addToCart(userId: ID!, productId: ID!, count: Int!): Cart
     placeOrder(userId: ID!): Order

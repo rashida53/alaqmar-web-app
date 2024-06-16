@@ -31,7 +31,7 @@ const Login = () => {
 
     return (
         <>
-            {/* <Nav /> */}
+            {Auth.loggedIn() && <Navigate to="/profileSetup" />}
             <div className='mainContainer'>
                 <div className="imageContainer">
 
@@ -39,7 +39,7 @@ const Login = () => {
                 <div className='loginForm'>
                     <h1 className="logoFont">AL AQMAR</h1>
                     <h1 className="loginHeader">LOG IN</h1>
-                    <p>Don't have an account? Sign up</p>
+                    <p>Don't have an account? <Link to="/signup" style={{ textDecoration: "none", color: "black" }}>Sign Up</Link></p>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <label htmlFor='email'></label>
                         <input placeholder="EMAIL" {...register("email", { required: true })}

@@ -8,7 +8,7 @@ export default function Nav() {
         <>
             <div className="navigationBar">
                 <ul className="navigationList">
-                    <li style={{ float: "left" }}><p className="navLogo">AL AQMAR</p></li>
+                    <li style={{ float: "left", marginLeft: "10px" }}><Link to="/" style={{ textDecoration: "none", color: "white", marginLeft: "10px" }}>AL AQMAR</Link></li>
                     <li>
                         <Link to="/" style={{ textDecoration: "none", color: "white" }}>SHOP</Link>
                     </li>
