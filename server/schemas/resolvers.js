@@ -51,11 +51,13 @@ const resolvers = {
         },
         addUser: async (parent, args) => {
             const user = await User.findOne({ its: args.its });
+            const profile = await Profile.findOne({ its: args.its });
             if (user) {
                 throw new AuthenticationError("User already exists");
-            } else {
-                const profile = await Profile.findOne({ its: args.its });
+            } else if (profile) {
                 return User.create({ ...args, profile: mongoose.Types.ObjectId(profile._id) });
+            } else {
+                return User.create(args);
             }
         },
         addProduct: async (parent, args) => {
